@@ -1,3 +1,5 @@
+using System;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -10,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingRight = true;
     
     private bool doubleJumped = false;
+
+    private PhotonView view;
     
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private PolygonCollider2D polygonCollider2D;
@@ -18,10 +22,19 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
 
     // Update is called once per frame
+
+    private void Start()
+    {
+        view = GetComponent<PhotonView>();
+    }
+
     void Update()
     {
-        ManageMovement();
-        ManageAttacks();
+        if (view.IsMine)
+        {
+            ManageMovement();
+            ManageAttacks();
+        }
     }
 
     private void ManageAttacks()
